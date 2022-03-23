@@ -3,6 +3,16 @@
 	"EngineAssociation": "{661B9CB9-45F1-73E7-5F63-EC92A6B2064E}",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "AudioVisual",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "XRVisualization",
