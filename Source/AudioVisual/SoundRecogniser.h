@@ -19,10 +19,18 @@ public:
 	*
 	*@outparam	Value - The number of sounds currently active
 	*
-	*
-	*
 	*/
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
 	static float ActiveSoundNumber();
 
+	/**
+	*Spits out vector of distance from current active sound to given vector
+	* 
+	*@param DistanceTo - vector we want to calculate the distance to
+	*
+	*@outparam	DistanceOut - vector of distance between the in param and the active sound
+	*
+	*/
+	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
+	static FVector ActiveSoundDistanceVector(const FVector& DistanceTo);
 };
