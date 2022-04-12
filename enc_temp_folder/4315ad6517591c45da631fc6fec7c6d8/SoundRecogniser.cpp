@@ -92,19 +92,13 @@ void USoundRecogniser::ActiveSoundDistanceVector(const FVector& DistanceTo, cons
 	//AimAtAngle = ((acosf(FVector::DotProduct(DistanceTo, DistanceOut))) * (180 / 3.1415926));
 	//AimAtAngle = FMath::RadiansToDegrees(acosf(FVector::DotProduct(DistanceTo, DistanceOut)));
 
-	DistanceOut = DistanceOut - DistanceTo;
+	DistanceOut = DistanceTo - DistanceOut;
 }
 
-float USoundRecogniser::ActiveSoundAngle2D(const FVector& CameraVec, const FRotator& CameraRot, const FVector& SoundVector, bool& IsLeft)
+float USoundRecogniser::ActiveSoundAngle2D(const FVector& CameraVec, const FRotator& CameraRot, const FVector& SoundVector)
 {
 	float outAngle = FMath::RadiansToDegrees(acosf(FVector::DotProduct(CameraVec.GetSafeNormal2D(), SoundVector.GetSafeNormal2D())));
-
-	FVector temp = FVector::CrossProduct(CameraVec.GetSafeNormal(), SoundVector.GetSafeNormal());
 	//float outAngle = CameraRot.GetManhattanDistance(SoundVector.Rotation());
-	if (temp.Z < 0)
-		IsLeft = true;
-	else
-		IsLeft = false;
 
 	return outAngle;
 }

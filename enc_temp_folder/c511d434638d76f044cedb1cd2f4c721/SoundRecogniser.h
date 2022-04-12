@@ -46,11 +46,10 @@ public:
 	*@param		SoundVector
 	* 
 	*@outparam	outAngle - Angle between sound last location and camera rotation
-	*@outparam	IsLeft - bool confirming if left or right
 	*
 	*/
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
-		static float ActiveSoundAngle2D(const FVector& CameraVec, const FRotator& CameraRot, const FVector& SoundVector, bool& IsLeft);
+		static float ActiveSoundAngle2D(const FVector& CameraVec, const FRotator& CameraRot, const FVector& SoundVector);
 
 
 
