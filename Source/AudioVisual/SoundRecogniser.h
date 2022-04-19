@@ -23,6 +23,7 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
 		static float ActiveSoundNumber();
 
+
 	/**
 	*Spits out vector of distance from current active sound to given vector
 	*
@@ -50,6 +51,14 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
 		static void ActiveSoundVector(const FVector& CameraWorldLocation, FVector& SoundVector);
 
+	/**
+	*Spits out vector of active sound
+	*
+	*@outparam	SoundVector - vector of active sound
+	*
+	*/
+	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
+		static void SimpleActiveSoundVector(FVector& SoundVector);
 
 
 	/**

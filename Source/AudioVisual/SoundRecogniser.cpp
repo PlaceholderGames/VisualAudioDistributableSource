@@ -113,6 +113,21 @@ void USoundRecogniser::ActiveSoundVector(const FVector& CameraWorldLocation, FVe
 	SoundVector = SoundVector - CameraWorldLocation;
 }
 
+void USoundRecogniser::SimpleActiveSoundVector(FVector& SoundVector)
+{
+	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
+	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
+
+	for (int i = 0; i < activeSounds.Num(); i++)
+	{
+		FActiveSound* soundPtr = activeSounds[i];
+		if (soundPtr->bIsPlayingAudio)
+		{
+			SoundVector = soundPtr->LastLocation;
+		}
+	}
+}
+
 float USoundRecogniser::ActiveSoundAngle2D(const FVector& CameraVec, const FVector& SoundVector, bool& IsLeft)
 {
 	float outAngle = FMath::RadiansToDegrees(acosf(FVector::DotProduct(CameraVec.GetSafeNormal2D(), SoundVector.GetSafeNormal2D())));
