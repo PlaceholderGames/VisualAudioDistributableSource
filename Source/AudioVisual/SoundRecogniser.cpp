@@ -12,6 +12,8 @@
 #include "AudioDeviceManager.h"
 #include "IAudioExtensionPlugin.h"
 #include "Math/Vector.h"
+#include "AudioThread.h"
+#include "Containers/Array.h"
 
 
 
@@ -115,8 +117,28 @@ void USoundRecogniser::ActiveSoundVector(const FVector& CameraWorldLocation, FVe
 
 void USoundRecogniser::SimpleActiveSoundVector(FVector& SoundVector)
 {
-	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
-	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
+	//FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
+	//const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();;
+	const TArray<FActiveSound*> activeSounds = GEngine->GetActiveAudioDevice().GetAudioDevice()->GetActiveSounds();
+	
+	//FAudioThread::RunCommandOnAudioThread([this, audioDevice, &SoundVector]()
+	//	{
+	//		const TArray<FActiveSound*> tempActiveSounds = audioDevice->GetActiveSounds();
+	//		//activeSounds.Emplace() = audioDevice->GetActiveSounds();
+	//		//FActiveSound* soundPtr = tempActiveSounds.GetData();
+	//		for (int32 i = 0; i != tempActiveSounds.Num(); ++i)
+	//		{
+	//			FActiveSound* sound = tempActiveSounds[i];
+	//			if (sound->bIsPlayingAudio)
+	//			{
+	//				FAudioThread::RunCommandOnGameThread([this, sound, &SoundVector]()
+	//					{
+
+	//						SoundVector = sound->LastLocation;
+	//					});
+	//			}
+	//		}
+	//	});
 
 	for (int i = 0; i < activeSounds.Num(); i++)
 	{
