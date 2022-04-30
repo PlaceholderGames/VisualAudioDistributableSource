@@ -14,7 +14,7 @@
 #include "Math/Vector.h"
 
 
-
+/*
 template<typename T>
 void GetObjectsOfClass(TArray<T*>& OutArray)
 {
@@ -26,7 +26,7 @@ void GetObjectsOfClass(TArray<T*>& OutArray)
 		OutArray.Add(Object);
 	}
 }
-
+*/
 
 float USoundRecogniser::ActiveSoundNumber()
 {
