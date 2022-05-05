@@ -23,22 +23,31 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
 		static float ActiveSoundNumber();
 
-
 	/**
-	*Spits out vector of distance from current active sound to given vector
+	*Spits out vector of active sound
 	*
-	*@param CameraWorldLocation - vector we want to calculate the distance from
-	*@param CameraWorldRotation - Rotator for camera/player
-	*
-	*@outparam	DistanceOut - vector of distance between the in param and the active sound
-	*@outparam  absoluteDistance - pythags of x and y from distanceout
-	*@outparam	orientationAngle - FQuat orientation corresponding to the direction in which the vector points
-	*@outparam	absoluteAngle - angle of FQuat
-	*@outparam	AimAtAngle - calculated angle
+	*@outparam	SoundVector - vector of active sound
 	*
 	*/
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
-		static void ActiveSoundDistanceVector(const FVector& DistanceTo, const FRotator& RotationTo, FVector& DistanceOut, float& absoluteDistance, float& absoluteAngle, FQuat& orientationAngle, float& AimAtAngle);
+		static void SimpleActiveSoundVector(FVector& SoundVector);
+
+	///**
+	//*Spits out vector of distance from current active sound to given vector
+	//*
+	//*@param CameraWorldLocation - vector we want to calculate the distance from
+	//*@param CameraWorldRotation - Rotator for camera/player
+	//*
+	//*@outparam	DistanceOut - vector of distance between the in param and the active sound
+	//*@outparam  absoluteDistance - pythags of x and y from distanceout
+	//*@outparam	orientationAngle - FQuat orientation corresponding to the direction in which the vector points
+	//*@outparam	absoluteAngle - angle of FQuat
+	//*@outparam	AimAtAngle - calculated angle
+	//*
+	//*/
+	//UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
+	//	static void ActiveSoundDistanceVector(const FVector& DistanceTo, const FRotator& RotationTo, FVector& DistanceOut, float& absoluteDistance, float& absoluteAngle, FQuat& orientationAngle, float& AimAtAngle);
+	//DEPRECATED
 
 	/**
 	*Spits out vector of distance from current active sound to given vector
@@ -52,16 +61,6 @@ public:
 		static void ActiveSoundVector(const FVector& CameraWorldLocation, FVector& SoundVector);
 
 	/**
-	*Spits out vector of active sound
-	*
-	*@outparam	SoundVector - vector of active sound
-	*
-	*/
-	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
-		static void SimpleActiveSoundVector(FVector& SoundVector);
-
-
-	/**
 	*Spits out the number of currently active sounds
 	*
 	*@param		CameraRot - Rotation of Camera from user
@@ -73,17 +72,4 @@ public:
 	*/
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject", CallableWithoutWorldContext), Category = "HUD|Util")
 		static float ActiveSoundAngle2D(const FVector& CameraVec, const FVector& SoundVector, bool& IsLeft);
-
-	/*
-	inparam float angle
-	inparam float isLeft
-
-	outparam bool topWidget
-	outparam bool leftWidget
-	outparam bool rightWidget
-	outparam bool bottomWidget
-
-	
-	*/
-
 };
