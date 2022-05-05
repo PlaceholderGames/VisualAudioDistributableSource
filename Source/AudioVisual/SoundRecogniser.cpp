@@ -14,20 +14,6 @@
 #include "Math/Vector.h"
 
 
-
-template<typename T>
-void GetObjectsOfClass(TArray<T*>& OutArray)
-{
-	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
-	TArray<FAssetData> AssetData;
-	AssetRegistryModule.Get().GetAssetsByClass(T::StaticClass()->GetFName(), AssetData);
-	for (int i = 0; i < AssetData.Num(); i++) {
-		T* Object = Cast<T>(AssetData[i].GetAsset());
-		OutArray.Add(Object);
-	}
-}
-
-
 float USoundRecogniser::ActiveSoundNumber()
 {
 	float value = 0.0;
@@ -35,7 +21,6 @@ float USoundRecogniser::ActiveSoundNumber()
 	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
 
 	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
-	//FActiveSound* soundPtr = activeSounds&.GetData();
 
 	for (int i = 0; i < activeSounds.Num(); i++)
 	{
@@ -43,28 +28,31 @@ float USoundRecogniser::ActiveSoundNumber()
 		if (soundPtr->bIsPlayingAudio)
 			value = value + 1.0;
 	}
-	/*
-	for (auto& i : activeSounds)
-	{
-		value = value + 1;
-
-	}
-	*/
 
 	return value;
 }
 
+void USoundRecogniser::SimpleActiveSoundVector(FVector& SoundVector)
+{
+	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
+	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
+
+	for (int i = 0; i < activeSounds.Num(); i++)
+	{
+		FActiveSound* soundPtr = activeSounds[i];
+		if (soundPtr->bIsPlayingAudio)
+		{
+			SoundVector = soundPtr->LastLocation;
+		}
+	}
+}
+
+/* //DEPRECATED
 void USoundRecogniser::ActiveSoundDistanceVector(const FVector& DistanceTo, const FRotator& RotationTo, FVector& DistanceOut, float& absoluteDistance, float& absoluteAngle, FQuat& orientationAngle, float& AimAtAngle)
 {
 	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
 
 	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
-	//FActiveSound* soundPtr = activeSounds&.GetData();
-
-	/*
-	need to check if sound is hearable by player / audio device / listener before determining distance
-	checking volume in listener?
-	*/
 
 	for (int i = 0; i < activeSounds.Num(); i++)
 	{
@@ -72,19 +60,9 @@ void USoundRecogniser::ActiveSoundDistanceVector(const FVector& DistanceTo, cons
 		if (soundPtr->bIsPlayingAudio)
 		{
 			DistanceOut = soundPtr->LastLocation;
-
-			//if (soundPtr->MaxDistance <= DistanceOut)
-			
 		}
 	}
-	/*
-	for (auto& i : activeSounds)
-	{
-		value = value + 1;
 
-	}
-	*/
-	//DistanceOut = DistanceOut - DistanceTo;
 	//orientationAngle = DistanceOut.ToOrientationQuat();
 	//absoluteAngle = orientationAngle.GetAngle();
 
@@ -93,7 +71,7 @@ void USoundRecogniser::ActiveSoundDistanceVector(const FVector& DistanceTo, cons
 	//AimAtAngle = FMath::RadiansToDegrees(acosf(FVector::DotProduct(DistanceTo, DistanceOut)));
 
 	DistanceOut = DistanceOut - DistanceTo;
-}
+}*/
 
 void USoundRecogniser::ActiveSoundVector(const FVector& CameraWorldLocation, FVector& SoundVector)
 {
@@ -113,27 +91,11 @@ void USoundRecogniser::ActiveSoundVector(const FVector& CameraWorldLocation, FVe
 	SoundVector = SoundVector - CameraWorldLocation;
 }
 
-void USoundRecogniser::SimpleActiveSoundVector(FVector& SoundVector)
-{
-	FAudioDevice* audioDevice = GEngine->GetActiveAudioDevice().GetAudioDevice();
-	const TArray<FActiveSound*> activeSounds = audioDevice->GetActiveSounds();
-
-	for (int i = 0; i < activeSounds.Num(); i++)
-	{
-		FActiveSound* soundPtr = activeSounds[i];
-		if (soundPtr->bIsPlayingAudio)
-		{
-			SoundVector = soundPtr->LastLocation;
-		}
-	}
-}
-
 float USoundRecogniser::ActiveSoundAngle2D(const FVector& CameraVec, const FVector& SoundVector, bool& IsLeft)
 {
 	float outAngle = FMath::RadiansToDegrees(acosf(FVector::DotProduct(CameraVec.GetSafeNormal2D(), SoundVector.GetSafeNormal2D())));
 
 	FVector temp = FVector::CrossProduct(CameraVec.GetSafeNormal(), SoundVector.GetSafeNormal());
-	//float outAngle = CameraRot.GetManhattanDistance(SoundVector.Rotation());
 	if (temp.Z < 0)
 		IsLeft = true;
 	else
@@ -141,7 +103,3 @@ float USoundRecogniser::ActiveSoundAngle2D(const FVector& CameraVec, const FVect
 
 	return outAngle;
 }
-
-/*
-check camera rotation instead of location as that may work
-*/
